@@ -1,4 +1,4 @@
-flag = true 
+flag = true
 pipeline {
   agent any
   environment {
@@ -10,17 +10,17 @@ pipeline {
         echo 'Building..'
         // Here you can define commands for your build
         echo "Building version ${NEW_VERSION}"
+      }
+    }
+    stage('Test') {
+      when {
+        expression {
+          flag == false
         }
       }
-    stage('Test') {
       steps {
-          when {
-            expression {
-              flag == false
-            }
-          }
         echo 'Testing..'
-          // Here you can define commands for your tests
+        // Here you can define commands for your tests
       }
     }
     stage('Deploy') {
@@ -30,15 +30,14 @@ pipeline {
       }
     }
   }
-    post {
-      //The conditions here will execute after the build is done
-    always{
-       // this action will always happen 
+  post {
+    always {
+      // this action will always happen
       echo 'post build condition Running'
-          }
+    }
     failure {
-      //only if failed
+      // only if failed
       echo 'post action if build failed'
-          }
-      }
+    }
+  }
 }
